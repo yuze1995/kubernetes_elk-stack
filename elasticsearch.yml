@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  labels:
+    app: elasticsearch
+spec:
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
+          resources:
+            limits:
+              memory: "400Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 9200
+            - containerPort: 9300
+          env:
+            - name: ES_JAVA_OPTS
+              value: "-Xmx256m -Xms256m"
+            - name: ELASTIC_PASSWORD
+              value: changeme
+            - name: discovery.type
+              value: single-node
+
