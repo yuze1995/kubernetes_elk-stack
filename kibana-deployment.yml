@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: elk
+  name: kibana
+  labels:
+    kibana: kibana
+spec:
+  selector:
+    matchLabels:
+      kibana: kibana
+  template:
+    metadata:
+      labels:
+        kibana: kibana
+    spec:
+      containers:
+      - name: kibana
+        image: docker.elastic.co/kibana/kibana:7.13.4
+        resources:
+          limits:
+            memory: "0.5Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5601
+          protocol: TCP

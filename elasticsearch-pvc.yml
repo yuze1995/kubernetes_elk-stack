@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: elk
+  name: elasticsearch-pvc
+spec:
+  storageClassName: elasticsearch-storageclass
+  resources:
+    requests:
+      storage: 0.5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce

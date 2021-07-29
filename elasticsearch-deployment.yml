@@ -4,16 +4,16 @@ metadata:
   namespace: elk
   name: elasticsearch
   labels:
-    app: elasticsearch
+    elasticsearch: elasticsearch
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: elasticsearch
+      elasticsearch: elasticsearch
   template:
     metadata:
       labels:
-        app: elasticsearch
+        elasticsearch: elasticsearch
     spec:
       initContainers:
         - image: busybox

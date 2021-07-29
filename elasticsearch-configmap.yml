@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   namespace: elk
   name: elasticsearch-config
+  labels:
+    elasticsearch: elasticsearch
 data:
   elasticsearch.yml: |
     cluster.name: "k8s-cluster"
