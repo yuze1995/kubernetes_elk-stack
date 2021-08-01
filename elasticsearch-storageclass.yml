@@ -4,6 +4,8 @@ metadata:
   namespace: elk
   name: elasticsearch-storageclass
 provisioner: kubernetes.io/azure-disk
+reclaimPolicy: Retain
+allowVolumeExpansion: true
 parameters:
   storageaccounttype: Standard_LRS
   kind: managed

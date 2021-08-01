@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: elk
+  name: logstash-svc
+spec:
+  type: ClusterIP
+  selector:
+    logstash: logstash
+  ports:
+    - name: filebeat
+      protocol: TCP
+      port: 5044
+      targetPort: 5044      
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000

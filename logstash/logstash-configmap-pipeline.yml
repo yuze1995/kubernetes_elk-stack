@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: elk
+  name: logstash-pipeline
+  labels:
+    logstash: logstash
+data:
+  logstash.conf: |
+    input {
+      beats {
+        port => 5044
+      }
+
+      tcp {
+        port => 5000
+      }
+    }
+    output {
+      elasticsearch {
+        hosts => "elasticsearch-svc.elk.svc.cluster.local:9200"
+        user => "elastic"
+        password => "changeme"
+        ecs_compatibility => disabled
+      }
+    }

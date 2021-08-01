@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: elk
+  name: elk-ingress
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+    - host: elasticsearch.43932bd0bcf0449a8780.eastasia.aksapp.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: elasticsearch-svc
+                port:
+                  number: 9200
+    - host: kibana.43932bd0bcf0449a8780.eastasia.aksapp.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kibana-svc
+                port:
+                  number: 5601
+    - host: logstash.43932bd0bcf0449a8780.eastasia.aksapp.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: logstash-svc
+                port:
+                  number: 5044

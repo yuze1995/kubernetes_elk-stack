@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: elk
+  name: logstash
+  labels:
+    logstash: logstash
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      logstash: logstash
+  template:
+    metadata:
+      labels:
+        logstash: logstash
+    spec:
+      containers:
+        - name: logstash
+          image: docker.elastic.co/logstash/logstash:7.13.4
+          resources:
+            limits:
+              memory: "0.8Gi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+            - containerPort: 5044
+              protocol: TCP
+            - containerPort: 9600
+              protocol: TCP
+            - containerPort: 5000
+              protocol: UDP
+          env:
+            - name: LS_JAVA_OPTS
+              value: "-Xmx256m -Xms256m"
+          volumeMounts:
+            - name: config
+              mountPath: /usr/share/logstash/config/logstash.yml
+              subPath: logstash.yml
+            - name: pipeline
+              mountPath: /usr/share/logstash/pipeline
+      volumes:
+        - name: config
+          configMap:
+            name: logstash-config
+            defaultMode: 420
+        - name: pipeline
+          configMap:
+            name: logstash-pipeline
+            defaultMode: 420
