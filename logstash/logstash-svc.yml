@@ -8,10 +8,10 @@ spec:
   selector:
     logstash: logstash
   ports:
-    - name: filebeat
-      protocol: TCP
-      port: 5044
-      targetPort: 5044      
+    # - name: filebeat
+    #   protocol: TCP
+    #   port: 5044
+    #   targetPort: 5044      
     - name: http
       protocol: TCP
       port: 5000

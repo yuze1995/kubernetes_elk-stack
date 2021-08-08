@@ -27,13 +27,3 @@ spec:
                 name: kibana-svc
                 port:
                   number: 5601
-    - host: logstash.43932bd0bcf0449a8780.eastasia.aksapp.io
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: logstash-svc
-                port:
-                  number: 5044
