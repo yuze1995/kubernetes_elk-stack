@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: elk
+  name: elasticsearch-data-config
+  labels:
+    elasticsearch: elasticsearch
+data:
+  elasticsearch.yml: |
+    cluster.name: "elk-cluster"
+    node.name: "${POD_NAME}"
+
+    node.master: "false"
+    node.data: "true"
+    node.ingest: "false"
+
+    network.host: 0.0.0.0
+    discovery.seed_hosts: es-data-svc
+    
+    xpack.license.self_generated.type: basic
