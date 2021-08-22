@@ -15,11 +15,20 @@ data:
         port => 5000
       }
     }
+    filter {
+      grok {		
+          match => [ "message", "%{TIMESTAMP_ISO8601:logdate} \[%{DATA:logType}\] \[%{DATA:httpVerb}\] \[%{DATA:host}\] \[%{DATA:url}\] \[%{DATA:refferrerUrl}\] \[%{DATA:queryString}\] \[%{DATA:body}\] \[%{DATA:transactionId}\] \[%{DATA:companyId}\] \[%{DATA:employeeId}\]" ]
+      }
+      date {
+          match => ["logdate", "yyyy-MM-dd HH:mm:ss.SSS Z"]
+          target => "@timestamp"
+      }
+    }
     output {
       elasticsearch {
         hosts => "elasticsearch-svc.elk.svc.cluster.local:9200"
         user => "elastic"
-        password => "changeme"
+        password => "password"
         ecs_compatibility => disabled
       }
     }

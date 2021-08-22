@@ -13,5 +13,5 @@ data:
     "http://elasticsearch-svc.elk.svc.cluster.local:9200" ] 
     monitoring.ui.container.elasticsearch.enabled: "true"
     elasticsearch.username: "elastic"
-    elasticsearch.password: "changeme"
+    elasticsearch.password: "password"
 

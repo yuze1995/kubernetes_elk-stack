@@ -52,7 +52,7 @@ spec:
             - name: ES_JAVA_OPTS
               value: "-Xmx256m -Xms256m"
             - name: ELASTIC_PASSWORD
-              value: changeme
+              value: password
             - name: discovery.type
               value: single-node
           volumeMounts:

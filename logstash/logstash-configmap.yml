@@ -12,5 +12,5 @@ data:
     "http://elasticsearch-svc.elk.svc.cluster.local:9200"]
     xpack.monitoring.enabled: true
     xpack.monitoring.elasticsearch.username: elastic
-    xpack.monitoring.elasticsearch.password: changeme
+    xpack.monitoring.elasticsearch.password: password
 
