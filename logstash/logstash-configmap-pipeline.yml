@@ -10,18 +10,38 @@ data:
     input {
       beats {
         port => 5044
+        codec => json
       }
       tcp {
         port => 5000
+        codec => json
       }
     }
     filter {
+      split {
+        field => "events"
+      }
+      ruby {
+        code => "
+          event.get('events').each do |k, v|
+            event.set(k, v)
+          end
+        "
+      }
+      mutate {
+        remove_field => [ "events" ]
+      }
       grok {		
-          match => [ "message", "%{TIMESTAMP_ISO8601:logdate} \[%{DATA:logType}\] \[%{DATA:httpVerb}\] \[%{DATA:host}\] \[%{DATA:url}\] \[%{DATA:refferrerUrl}\] \[%{DATA:queryString}\] \[%{DATA:body}\] \[%{DATA:transactionId}\] \[%{DATA:companyId}\] \[%{DATA:employeeId}\]" ]
+        match => [ "RenderedMessage", "\[%{DATA:httpVerb}\] \[%{DATA:host}\] \[%{DATA:url}\] \[%{DATA:referrerUrl}\] \[%{DATA:queryString}\] \[%{DATA:body}\] \[%{DATA:transactionId}\] \[%{DATA:companyId}\] \[%{DATA:employeeId}\]" ]
       }
       date {
-          match => ["logdate", "yyyy-MM-dd HH:mm:ss.SSS Z"]
-          target => "@timestamp"
+        timezone => "Asia/Taipei"
+        match => ["Timestamp", "yyyy-MM-dd HH:mm:ss.SSSSSZ", "ISO8601"]
+        target => "@timestamp"
+      }
+      mutate {
+        remove_field => [ "Timestamp" ]
+        remove_tag => [ "_rubyexception", "_grokparsefailure"]
       }
     }
     output {
@@ -31,4 +51,5 @@ data:
         password => "password"
         ecs_compatibility => disabled
       }
+      stdout { }
     }
