@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: logstash
-          image: docker.elastic.co/logstash/logstash:7.13.4
+          image: elktest.azurecr.io/logstash/plugin:7.13.4
           resources:
             limits:
               memory: "1Gi"
