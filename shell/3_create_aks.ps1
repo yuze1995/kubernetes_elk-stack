@@ -28,11 +28,13 @@ az aks create `
   --node-count $AKS_CLUSTER_NODE `
   --generate-ssh-keys `
   --attach-acr $ACR_NAME  `
-  --kubernetes-version 1.21.2 `
+  --network-plugin azure `
+  --network-policy calico `
   --yes `
   --enable-addons http_application_routing   # Enable Ingress Service
-# --enable-aad `
-# --enable-azure-rbac `
+  # --kubernetes-version 1.21.2 `
+  # --enable-aad `
+  # --enable-azure-rbac `
 
 # # Get AKS Cluster Credentials
 az aks get-credentials `
@@ -42,22 +44,3 @@ az aks get-credentials `
 # List Kubernetes Node
 # kubectl get nodes -o wide 
 # kubectl get nodes --show-labels
-
-# Create AZURE Kubernetes NAMESPACE
-kubectl create namespace $AKS_NAMESPACE 
-
-kubectl apply -f ../elasticsearch/elasticsearch-configmap.yml --namespace $AKS_NAMESPACE 
-kubectl apply -f ../elasticsearch/elasticsearch-pvc.yml --namespace $AKS_NAMESPACE 
-kubectl apply -f ../elasticsearch/elasticsearch-deployment.yml --namespace $AKS_NAMESPACE 
-kubectl apply -f ../elasticsearch/elasticsearch-svc.yml --namespace $AKS_NAMESPACE 
-
-kubectl apply -f ../kibana/kibana-configmap.yml --namespace $AKS_NAMESPACE 
-kubectl apply -f ../kibana/kibana-deployment.yml --namespace $AKS_NAMESPACE 
-kubectl apply -f ../kibana/kibana-svc.yml --namespace $AKS_NAMESPACE 
-
-kubectl apply -f ../logstash/logstash-configmap.yml --namespace $AKS_NAMESPACE 
-kubectl apply -f ../logstash/logstash-configmap-pipeline.yml --namespace $AKS_NAMESPACE
-kubectl apply -f ../logstash/logstash-deployment.yml --namespace $AKS_NAMESPACE
-kubectl apply -f ../logstash/logstash-loadbalancer-svc.yml --namespace $AKS_NAMESPACE
-
-kubectl apply -f ../ingress.yml --namespace $AKS_NAMESPACE

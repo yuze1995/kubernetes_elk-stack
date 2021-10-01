@@ -1,9 +1,8 @@
 
 $SUBSCRIPTION = "2019_MPN06-1"
 $RESOURCE_GROUP = "elk-aks"
-$ELK_STORAGE = "elktempstorage"
 $ACR_NAME = "elktest"
-$ACR_REGISTRY = 'elktest.azurecr.io'
+$ACR_REGISTRY = "elktest.azurecr.io"
 
 az acr login `
   --subscription $SUBSCRIPTION `

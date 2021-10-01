@@ -39,7 +39,7 @@ spec:
           image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
           resources:
             limits:
-              memory: 0.8Gi
+              memory: 1Gi
               cpu: "500m"
           ports:
             - containerPort: 9200
@@ -50,7 +50,7 @@ spec:
               protocol: TCP
           env:
             - name: ES_JAVA_OPTS
-              value: "-Xmx256m -Xms256m"
+              value: "-Xmx512m -Xms512m"
             - name: ELASTIC_PASSWORD
               value: password
             - name: discovery.type

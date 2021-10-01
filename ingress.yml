@@ -7,7 +7,7 @@ metadata:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-    - host: elasticsearch.7615fdae90e74d1d8314.eastasia.aksapp.io
+    - host: elasticsearch.c0d78286fd954785bc89.eastasia.aksapp.io
       http:
         paths:
           - path: /
@@ -17,7 +17,7 @@ spec:
                 name: elasticsearch-svc
                 port:
                   number: 9200
-    - host: kibana.7615fdae90e74d1d8314.eastasia.aksapp.io
+    - host: kibana.c0d78286fd954785bc89.eastasia.aksapp.io
       http:
         paths:
           - path: /

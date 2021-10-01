@@ -7,43 +7,42 @@ metadata:
     logstash: logstash
 data:
   logstash.conf: |
-    input {
-      beats {
-        port => 5044
-        codec => json
-      }
-      tcp {
-        port => 5000
-        codec => json
-      }
-    }
-    filter {
-      split {
-        field => "events"
-      }
-      ruby {
-        code => "
-          event.get('events').each do |k, v|
-            event.set(k, v)
-          end
-        "
-      }
-      mutate {
-        remove_field => [ "events" ]
-      }
-      grok {		
-        match => [ "RenderedMessage", "\[%{DATA:httpVerb}\] \[%{DATA:host}\] \[%{DATA:url}\] \[%{DATA:referrerUrl}\] \[%{DATA:queryString}\] \[%{DATA:body}\] \[%{DATA:transactionId}\] \[%{DATA:companyId}\] \[%{DATA:employeeId}\]" ]
-      }
-      date {
-        timezone => "Asia/Taipei"
-        match => ["Timestamp", "yyyy-MM-dd HH:mm:ss.SSSSSZ", "ISO8601"]
-        target => "@timestamp"
-      }
-      mutate {
-        remove_field => [ "Timestamp" ]
-        remove_tag => [ "_rubyexception", "_grokparsefailure"]
+    input
+    {
+      azureblob
+      {
+        storage_account_name => "elktempstorage"
+        storage_access_key => "XLAtYN4w4BkAQombq8aScaXPZO96qe46z4WRHA06AHDNFkauA9SJzzdQEGEZgr2MhCOfiZzWCrqGPRwKcReNKA=="
+        container => "log-test-request"
       }
     }
+    # filter {
+    #   split {
+    #     field => "events"
+    #   }
+    #   ruby {
+    #     code => "
+    #       event.get('events').each do |k, v|
+    #         event.set(k, v)
+    #       end
+    #     "
+    #   }
+    #   mutate {
+    #     remove_field => [ "events" ]
+    #   }
+    #   grok {		
+    #     match => [ "RenderedMessage", "\[%{DATA:httpVerb}\] \[%{DATA:host}\] \[%{DATA:url}\] \[%{DATA:referrerUrl}\] \[%{DATA:queryString}\] \[%{DATA:body}\] \[%{DATA:transactionId}\] \[%{DATA:companyId}\] \[%{DATA:employeeId}\]" ]
+    #   }
+    #   date {
+    #     timezone => "Asia/Taipei"
+    #     match => ["Timestamp", "yyyy-MM-dd HH:mm:ss.SSSSSZ", "ISO8601"]
+    #     target => "@timestamp"
+    #   }
+    #   mutate {
+    #     remove_field => [ "Timestamp" ]
+    #     remove_tag => [ "_rubyexception", "_grokparsefailure"]
+    #   }
+    # }
     output {
       elasticsearch {
         hosts => "elasticsearch-svc.elk.svc.cluster.local:9200"
